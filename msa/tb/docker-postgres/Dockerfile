@@ -35,6 +35,9 @@ ENV PGLOG=/var/log/postgres
 
 COPY logback.xml ${pkg.name}.conf start-db.sh stop-db.sh start-tb.sh upgrade-tb.sh install-tb.sh ${pkg.name}.deb /tmp/
 
+RUN sed -i s@/deb.debian.org/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sources.list
+RUN cat /etc/apt/sources.list
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends wget gnupg2 \
     && echo "deb http://apt.postgresql.org/pub/repos/apt/ $(. /etc/os-release && echo -n $VERSION_CODENAME)-pgdg main" | tee --append /etc/apt/sources.list.d/pgdg.list > /dev/null \
